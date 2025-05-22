@@ -1,0 +1,17 @@
+name: dtustatistic
+services:
+  mongodb:
+    image: mongo:4.4.29
+    container_name: dtustatistic-database
+    command:
+      - --storageEngine
+      - wiredTiger
+      - --auth
+    volumes:
+      - ./mongodb/data:/data/
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
+    ports:
+      - "27117:27017"
+    restart: unless-stopped

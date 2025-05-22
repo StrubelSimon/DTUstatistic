@@ -1,0 +1,2 @@
+spring.application.name=DTUstatistic
+spring.data.mongodb.uri=mongodb://user:password@localhost:27017/DBname
