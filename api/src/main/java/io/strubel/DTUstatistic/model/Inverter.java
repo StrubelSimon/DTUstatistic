@@ -1,19 +1,39 @@
 package io.strubel.DTUstatistic.model;
 
+import java.util.UUID;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+@Document(collection = "Inverters")
 public class Inverter {
 
-    private String serial;
+    @Id
+    @Field("_id")
+    private String id = UUID.randomUUID().toString();
+
     private String name;
-    private YieldToday yieldToday;
+    private String serial;
 
-    // Getter und Setter
-
-    public String getSerial() {
-        return serial;
+    // Standardkonstruktor
+    public Inverter() {
+        this.id = UUID.randomUUID().toString();
     }
 
-    public void setSerial(String serial) {
+    public Inverter(String name, String serial) {
+        this.id = UUID.randomUUID().toString();
+        this.name = name;
         this.serial = serial;
+    }
+
+    // Getter & Setter
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -24,11 +44,11 @@ public class Inverter {
         this.name = name;
     }
 
-    public YieldToday getYieldToday() {
-        return yieldToday;
+    public String getSerial() {
+        return serial;
     }
 
-    public void setYieldToday(YieldToday yieldToday) {
-        this.yieldToday = yieldToday;
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 }

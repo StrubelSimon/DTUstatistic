@@ -1,49 +1,34 @@
 package io.strubel.DTUstatistic.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.strubel.DTUstatistic.model.DailyYield;
 import io.strubel.DTUstatistic.service.DailyYieldService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/daily-yield")
+@RequestMapping("/api/data")
 public class DailyYieldController {
 
     @Autowired
     private DailyYieldService dailyYieldService;
 
-    @GetMapping
-    public List<DailyYield> getAll() {
-        return dailyYieldService.getAll();
+    @GetMapping("/daily") // day+month+year
+    public Optional<DailyYield> getDailyData(@RequestParam String day) {
+        return dailyYieldService.getDailyData(day);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DailyYield> getById(@PathVariable String id) {
-        return dailyYieldService.getById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/monthly") // month+year
+    public List<DailyYield> getMonthlyData(@RequestParam String month) {
+        return dailyYieldService.getMonthlyData(month);
     }
 
-    @PostMapping
-    public DailyYield create(@RequestBody DailyYield dailyYield) {
-        return dailyYieldService.create(dailyYield);
+    @GetMapping("/yearly") // year
+    public List<DailyYield> getYearlyData(@RequestParam String year) {
+        return dailyYieldService.getYearlyData(year);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DailyYield> update(@PathVariable String id, @RequestBody DailyYield updatedYield) {
-        return dailyYieldService.update(id, updatedYield)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        return dailyYieldService.delete(id)
-                ? ResponseEntity.noContent().build()
-                : ResponseEntity.notFound().build();
-    }
 }
