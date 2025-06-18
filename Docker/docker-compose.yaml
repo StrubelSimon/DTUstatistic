@@ -1,0 +1,40 @@
+name: dtustatistic
+services:
+  mongodb:
+    image: mongo:4.4.29
+    container_name: dtustatistic-database
+    command:
+      - --storageEngine
+      - wiredTiger
+      - --auth
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PW}
+    ports:
+      - "27117:27017"
+    restart: unless-stopped
+    networks:
+      - dtustatistic_network
+  api:
+    image: dtu-statistic-api:latest
+    container_name: dtustatistic-api
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - API_OPENDTU=${DTU_IP}
+    ports:
+      - "7081:8080"
+    restart: unless-stopped
+    networks:
+      - dtustatistic_network
+  client:
+    image: dtu-statistic-client:latest
+    container_name: dtustatistic-client
+    command: nginx -g 'daemon off;'
+    ports:
+      - "7080:80"
+    restart: unless-stopped
+    networks:
+      - dtustatistic_network
+networks:
+  dtustatistic_network:
+    driver: bridge

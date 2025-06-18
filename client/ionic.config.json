@@ -1,0 +1,7 @@
+{
+  "name": "DTU-Statistic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
